@@ -5,11 +5,12 @@ Full-Stack MERN spending tracking application. Built with MongoDB, Express, Reac
 ```
 npm init -y
 npm install express
+npm i mongoose
 ```
 
 To run:
 ```
-npm run dev
+npm run serve
 ```
 
 ## Front-End Set Up
