@@ -6,6 +6,8 @@ Full-Stack MERN spending tracking application. Built with MongoDB, Express, Reac
 npm init -y
 npm install express
 npm i mongoose
+npm install cors
+npm install nodemon
 ```
 
 To run:
