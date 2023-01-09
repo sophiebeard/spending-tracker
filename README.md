@@ -8,6 +8,7 @@ npm install express
 npm i mongoose
 npm install cors
 npm install nodemon
+npm install body-parser
 ```
 
 To run:
