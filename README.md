@@ -20,6 +20,12 @@ npm run serve
 ```
 npx create-react-app .
 ```
+For the styling:
+```
+npm install @mui/material @mui/styled-engine-sc styled-components
+npm install @fontsource/roboto
+npm install @mui/icons-material
+```
 
 To run:
 ```

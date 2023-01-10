@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import AppBar from './components/AppBar.js';
+import TransactionForm from './components/TransactionForm.js';
 
 const InitialForm = {
   amount: 0,
@@ -43,6 +45,8 @@ function App() {
 
   return (
     <div>
+      <AppBar />
+      <TransactionForm />
       <form onSubmit={handleSubmit}>
         <input
           type='number'
