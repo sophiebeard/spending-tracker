@@ -25,6 +25,8 @@ For the styling:
 npm install @mui/material @mui/styled-engine-sc styled-components
 npm install @fontsource/roboto
 npm install @mui/icons-material
+npm install @mui/x-date-pickers
+npm install dayjs
 ```
 
 To run:
