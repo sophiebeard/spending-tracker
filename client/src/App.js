@@ -22,7 +22,7 @@ function App() {
       <AppBar />
       <Container>
         <TransactionForm fetchTransaction={fetchTransaction} />
-        <TransactionList transactions={transactions} />
+        <TransactionList transactions={transactions} fetchTransaction={fetchTransaction} />
       </Container>
     </div>
   );
