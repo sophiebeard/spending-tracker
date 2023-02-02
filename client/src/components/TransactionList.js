@@ -10,6 +10,7 @@ import { Typography } from '@mui/material';
 import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import IconButton from '@mui/material/IconButton';
+import dayjs from 'dayjs';
 
 export default function TransactionList({ transactions, fetchTransaction }) {
 
@@ -22,6 +23,10 @@ export default function TransactionList({ transactions, fetchTransaction }) {
             fetchTransaction();
             window.alert('Transaction Deleted');
         }
+    }
+
+    function formatDate(date) {
+        return dayjs(date).format('DD MMM YYYY');
     }
 
     return (
@@ -49,7 +54,7 @@ export default function TransactionList({ transactions, fetchTransaction }) {
                                     {row.amount}
                                 </TableCell>
                                 <TableCell align="center">{row.description}</TableCell>
-                                <TableCell align="center">{row.date}</TableCell>
+                                <TableCell align="center">{formatDate(row.date)}</TableCell>
                                 <TableCell align="center">
                                     <IconButton color="primary" component="label">
                                         <EditSharpIcon />
