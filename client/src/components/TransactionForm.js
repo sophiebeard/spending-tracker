@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -14,9 +14,14 @@ const InitialForm = {
     date: new Date(),
 };
 
-export default function TransactionForm({ fetchTransaction }) {
-
+export default function TransactionForm({ fetchTransaction, editTransaction }) {
     const [form, setForm] = useState(InitialForm);
+
+    useEffect(() => {
+        if (editTransaction.amount !== undefined) {
+            setForm(editTransaction);
+        }
+    }, [editTransaction]);
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,45 +33,76 @@ export default function TransactionForm({ fetchTransaction }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const res = await fetch('http://localhost:4000/transaction', {
-            method: 'POST',
-            body: JSON.stringify(form),
-            headers: {
-                'content-type': "application/json",
-            }
-        });
+        editTransaction.amount === undefined ? create() : update();
+        }
+
+    function reload(res) {
         if (res.ok) {
             setForm(InitialForm);
             fetchTransaction();
-        };
-    };
+        }
+    }
 
-    return (
-        <Card sx={{ minWidth: 275, marginTop: 10 }}>
-            <CardContent>
-                <Typography variant="h6">
-                    Add New Transaction
-                </Typography>
-                <form onSubmit={handleSubmit}>
-                    <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Amount"
-                        size="small" variant="outlined"
-                        value={form.amount}
-                        onChange={handleChange} name="amount" />
-                    <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Description"
-                        size="small"
-                        name="description" variant="outlined"
-                        value={form.description}
-                        onChange={handleChange} />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
-                        label="Transaction Date"
-                        inputFormat="MM/DD/YYYY"
-                        value={form.date}
-                        onChange={handleDate}
-                        renderInput={(params) => <TextField sx={{ marginRight: 5 }} size="small" {...params} />}
-                    /></LocalizationProvider>
-                    <Button type="submit" variant="contained">Submit</Button>
-                </form>
-            </CardContent>
-        </Card>
-    );
-}
+        async function create() {
+            const res = await fetch("http://localhost:4000/transaction", {
+                method: "POST",
+                body: JSON.stringify(form),
+                headers: {
+                    "content-type": "application/json",
+                },
+            });
+            reload(res);
+        }
+
+        async function update() {
+            const res = await fetch(
+                `http://localhost:4000/transaction/${editTransaction._id}`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(form),
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                }
+            );
+            reload(res);
+        }
+
+        return (
+            <Card sx={{ minWidth: 275, marginTop: 10 }}>
+                <CardContent>
+                    <Typography variant="h6">
+                        Add New Transaction
+                    </Typography>
+                    <form onSubmit={handleSubmit}>
+                        <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Amount"
+                            size="small" variant="outlined"
+                            value={form.amount}
+                            onChange={handleChange} name="amount" />
+                        <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Description"
+                            size="small"
+                            name="description" variant="outlined"
+                            value={form.description}
+                            onChange={handleChange} />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
+                            label="Transaction Date"
+                            inputFormat="MM/DD/YYYY"
+                            value={form.date}
+                            onChange={handleDate}
+                            renderInput={(params) => <TextField sx={{ marginRight: 5 }} size="small" {...params} />}
+                        /></LocalizationProvider>
+                        {editTransaction.amount !== undefined && (
+                            <Button type="submit" variant="secondary">
+                                Update
+                            </Button>
+                        )}
+                        {editTransaction.amount === undefined && (
+                            <Button type="submit" variant="contained">
+                                Submit
+                            </Button>
+                        )}
+                    </form>
+                </CardContent>
+            </Card >
+        )
+    };
