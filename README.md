@@ -10,6 +10,7 @@ npm install cors
 npm install nodemon
 npm install body-parser
 npm install bcrypt
+npm install jsonwebtoken
 ```
 
 To run:

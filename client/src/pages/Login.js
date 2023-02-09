@@ -13,13 +13,25 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+
+    const res = await fetch('http://localhost:4000/auth/login', {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: {
+        'content-type': 'application/json',
+      },
     });
+
+    if (res.ok) {
+      console.log("Login successful");
+    }
   };
 
   return (
