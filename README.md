@@ -9,6 +9,7 @@ npm i mongoose
 npm install cors
 npm install nodemon
 npm install body-parser
+npm install bcrypt
 ```
 
 To run:
