@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 mongoose.set('strictQuery', true);
 
 async function connect() {
-    await mongoose.connect("mongodb+srv://sophie:sophie123@spending-tracker.welg0vl.mongodb.net/?retryWrites=true&w=majority");
+    const username = process.env.MONGO_DB_USERNAME;
+    const password = process.env.MONGO_DB_PASSWORD;
+    const url = process.env.MONGO_DB_URL;
+
+    await mongoose.connect(`mongodb+srv://${username}:${password}@${url}/?retryWrites=true&w=majority`);
     console.log('MongoDB connection is successful');
 };
 

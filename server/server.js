@@ -1,11 +1,14 @@
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import connect from './database/mongodb.js';
-import TransactionsAPI from './routes/TransactionsAPI.js';
-import AuthAPI from './routes/AuthApi.js'
-import passport from 'passport';
-import passportConfig from './config/passport.js';
+import bodyParser from "body-parser";
+import cors from "cors";
+import * as dotenv from "dotenv";
+import express from "express";
+import passport from "passport";
+import passportConfig from "./config/passport.js";
+import connect from "./database/mongodb.js";
+import AuthApi from "./routes/AuthApi.js";
+import TransactionsApi from "./routes/TransactionsApi.js";
+
+dotenv.config();
 
 const PORT = 4000;
 const app = express();
@@ -14,16 +17,15 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 passportConfig(passport);
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World');
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
 
-app.use('/transaction', TransactionsAPI);
-app.use('/auth', AuthAPI);
+app.use("/transaction", TransactionsApi);
+app.use("/auth", AuthApi);
 
 await connect();
 
 app.listen(PORT, () => {
-    console.log('Server is running at http://localhost:4000');
+  console.log("Server is running at http://localhost:4000");
 });

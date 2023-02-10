@@ -10,11 +10,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 
 export default function Login() {
   const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -23,7 +22,7 @@ export default function Login() {
       password: data.get('password'),
     };
 
-    const res = await fetch('http://localhost:4000/auth/login', {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -32,8 +31,9 @@ export default function Login() {
     });
 
     const { token } = await res.json();
+    
     if (res.ok) {
-      Cookies.set('token', token);
+      Cookie.set("token", token);
       navigate('/');
     }
   };

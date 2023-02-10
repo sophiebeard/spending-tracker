@@ -43,53 +43,54 @@ export default function TransactionForm({ fetchTransaction, editTransaction }) {
         }
     }
 
-        async function create() {
-            const res = await fetch("http://localhost:4000/transaction", {
-                method: "POST",
+    async function create() {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction`, {
+            method: "POST",
+            body: JSON.stringify(form),
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+        reload(res);
+    }
+
+    async function update() {
+        const res = await fetch(
+            `${process.env.REACT_APP_API_URL}/transaction/${editTransaction._id}`,
+            {
+                method: "PATCH",
                 body: JSON.stringify(form),
                 headers: {
                     "content-type": "application/json",
                 },
-            });
-            reload(res);
-        }
+            }
+        );
+        reload(res);
+    }
 
-        async function update() {
-            const res = await fetch(
-                `http://localhost:4000/transaction/${editTransaction._id}`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(form),
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                }
-            );
-            reload(res);
-        }
-
-        return (
-            <Card sx={{ minWidth: 275, marginTop: 10 }}>
-                <CardContent>
-                    <Typography variant="h6">
-                        Add New Transaction
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
-                        <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Amount"
-                            size="small" variant="outlined"
-                            value={form.amount}
-                            onChange={handleChange} name="amount" />
-                        <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Description"
-                            size="small"
-                            name="description" variant="outlined"
-                            value={form.description}
-                            onChange={handleChange} />
-                        <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
-                            label="Transaction Date"
-                            inputFormat="MM/DD/YYYY"
-                            value={form.date}
-                            onChange={handleDate}
-                            renderInput={(params) => <TextField sx={{ marginRight: 5 }} size="small" {...params} />}
+    return (
+        <Card sx={{ minWidth: 275, marginTop: 10 }}>
+            <CardContent>
+                <Typography variant="h6">
+                    Add New Transaction
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Amount"
+                        size="small" variant="outlined"
+                        value={form.amount}
+                        onChange={handleChange} name="amount" />
+                    <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Description"
+                        size="small"
+                        name="description" variant="outlined"
+                        value={form.description}
+                        onChange={handleChange} />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
+                        label="Transaction Date"
+                        inputFormat="MM/DD/YYYY"
+                        value={form.date}
+                        onChange={handleDate}
+                        renderInput={(params) =>
+                            <TextField sx={{ marginRight: 5 }} size="small" {...params} />}
                         /></LocalizationProvider>
                         {editTransaction.amount !== undefined && (
                             <Button type="submit" variant="secondary">

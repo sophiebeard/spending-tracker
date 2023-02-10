@@ -12,11 +12,11 @@ import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import IconButton from '@mui/material/IconButton';
 import dayjs from 'dayjs';
 
-export default function TransactionList({ transactions, fetchTransaction, setEditTransaction }) {
+export default function TransactionList({ transactions, fetchTransaction, setEditTransaction, }) {
 
     async function remove(_id) {
         if (!window.confirm("Are you sure that you would like to delete this transaction?")) return;
-        const res = await fetch(`http://localhost:4000/transaction/${_id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/transaction/${_id}`, {
             method: "DELETE",
         });
         if (res.ok) {

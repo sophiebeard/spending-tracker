@@ -13,6 +13,7 @@ npm install bcrypt
 npm install jsonwebtoken
 npm install passport-jwt
 npm i passport
+npm i dotenv
 ```
 
 To run:
