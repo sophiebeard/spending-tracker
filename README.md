@@ -11,6 +11,8 @@ npm install nodemon
 npm install body-parser
 npm install bcrypt
 npm install jsonwebtoken
+npm install passport-jwt
+npm i passport
 ```
 
 To run:
