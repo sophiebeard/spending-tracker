@@ -6,12 +6,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/auth.js';
 
 export default function ButtonAppBar() {
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
 
     function _logout() {
         Cookies.remove('token');
@@ -28,13 +29,23 @@ export default function ButtonAppBar() {
                         Spending Tracker
                         </Link>
                     </Typography>
-                    <Button color="inherit" onClick={_logout}>Logout</Button>
-                    <Link to='/login' className="text-white">
-                        <Button color="inherit">Login</Button>
-                    </Link>
-                    <Link to='/register' className="text-white">
-                        <Button color="inherit">Register</Button>
-                    </Link>
+                    {
+                        isAuthenticated && (
+                            <Button color="inherit" onClick={_logout}>Logout</Button>
+                        )
+                    }
+                    {
+                        !isAuthenticated && (
+                            <>
+                                <Link to='/login' className="text-white">
+                            <Button color="inherit">Login</Button>
+                            </Link>
+                            <Link to='/register' className="text-white">
+                            <Button color="inherit">Register</Button>
+                            </Link>
+                            </>
+                        )
+                    }
                 </Toolbar>
             </AppBar>
         </Box>
