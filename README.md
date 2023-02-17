@@ -34,6 +34,9 @@ npm install @mui/x-date-pickers
 npm install dayjs
 npm install react-router-dom
 npm i js-cookie
+npm install react-redux
+npm install redux
+npm install @reduxjs/toolkit
 ```
 
 To run:
