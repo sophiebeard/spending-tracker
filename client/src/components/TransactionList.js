@@ -12,8 +12,11 @@ import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import IconButton from '@mui/material/IconButton';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 
 export default function TransactionList({ transactions, fetchTransaction, setEditTransaction, }) {
+
+    const user = useSelector(state => state.auth.user);
 
     async function remove(_id) {
         const token = Cookies.get('token');
@@ -32,6 +35,11 @@ export default function TransactionList({ transactions, fetchTransaction, setEdi
 
     function formatDate(date) {
         return dayjs(date).format('DD MMM YYYY');
+    }
+
+    function categoryName(id) {
+        const category = user.categories.find((category) => category._id === id);
+        return category ? category.label : 'NA';
     }
 
     return (
@@ -60,7 +68,7 @@ export default function TransactionList({ transactions, fetchTransaction, setEdi
                                     {row.amount}
                                 </TableCell>
                                 <TableCell align="center">{row.description}</TableCell>
-                                <TableCell align="center">{row.category_id}</TableCell>
+                                <TableCell align="center">{categoryName(row.category_id)}</TableCell>
                                 <TableCell align="center">{formatDate(row.date)}</TableCell>
                                 <TableCell align="center">
                                     <IconButton color="primary" component="label" onClick={() => setEditTransaction(row)}>
