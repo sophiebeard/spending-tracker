@@ -7,6 +7,7 @@ const transactionSchema = new Schema({
     user_id: mongoose.Types.ObjectId,
     date: { type: Date, default: new Date },
     createdAt: { type: Date, default: Date.now },
+    category_id: mongoose.Types.ObjectId,
 });
 
 export default new mongoose.model("Transaction", transactionSchema);

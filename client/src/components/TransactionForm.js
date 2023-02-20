@@ -3,19 +3,24 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
+import Autocomplete from '@mui/material/Autocomplete';
+import { useSelector } from 'react-redux';
 
 const InitialForm = {
     amount: 0,
     description: '',
     date: new Date(),
+    category_id: '',
 };
 
 export default function TransactionForm({ fetchTransaction, editTransaction }) {
+    const {categories} = useSelector(state=>state.auth.user)
     const token = Cookies.get('token');
     const [form, setForm] = useState(InitialForm);
 
@@ -72,13 +77,19 @@ export default function TransactionForm({ fetchTransaction, editTransaction }) {
         reload(res);
     }
 
+    function getCategoryNameById() {
+        return(
+            categories.find((category) => category._id === form.category_id) ?? ''
+        );
+    }
+
     return (
         <Card sx={{ minWidth: 275, marginTop: 10 }}>
             <CardContent>
                 <Typography variant="h6">
                     Add New Transaction
                 </Typography>
-                <form onSubmit={handleSubmit}>
+                <Box component="form" onSubmit={handleSubmit} sx={{display:'flex'}}>
                     <TextField sx={{ marginRight: 5 }} id="outlined-basic" label="Amount"
                         size="small" variant="outlined"
                         value={form.amount}
@@ -88,14 +99,25 @@ export default function TransactionForm({ fetchTransaction, editTransaction }) {
                         name="description" variant="outlined"
                         value={form.description}
                         onChange={handleChange} />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DesktopDatePicker
                         label="Transaction Date"
                         inputFormat="MM/DD/YYYY"
                         value={form.date}
                         onChange={handleDate}
                         renderInput={(params) =>
-                            <TextField sx={{ marginRight: 5 }} size="small" {...params} />}
-                        /></LocalizationProvider>
+                            <TextField sx={{ marginRight: 5 }} size="small" {...params} />}/>
+                    </LocalizationProvider>
+                    <Autocomplete
+                        value={getCategoryNameById()}
+                        onChange={(event, newValue) => {
+                            setForm({ ...form, category_id: newValue._id });
+                        }}
+                        id="controllable-states-demo"
+                        options={categories}
+                        sx={{ width: 200, marginRight: 5 }}
+                        renderInput={(params) => <TextField {...params} size="small" label="Category" />}
+                    />
                         {editTransaction.amount !== undefined && (
                             <Button type="submit" variant="secondary">
                                 Update
@@ -106,7 +128,7 @@ export default function TransactionForm({ fetchTransaction, editTransaction }) {
                                 Submit
                             </Button>
                         )}
-                    </form>
+                    </Box>
                 </CardContent>
             </Card >
         )

@@ -2,6 +2,22 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+const categories = [
+  { label: 'Bills', icon: 'user' },
+  { label: 'Charity', icon: 'user' },
+  { label: 'Eating out', icon: 'user' },
+  { label: 'Entertainment', icon: 'user' },
+  { label: 'Expenses', icon: 'user' },
+  { label: 'General', icon: 'user' },
+  { label: 'Gifts', icon: 'user' },
+  { label: 'Groceries', icon: 'user' },
+  { label: 'Holidays', icon: 'user' },
+  { label: 'Personal care', icon: 'user' },
+  { label: 'Savings', icon: 'user' },
+  { label: 'Shopping', icon: 'user' },
+  { label: 'Transport', icon: 'user' },
+];
+
 export const register = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
@@ -15,7 +31,7 @@ export const register = async (req, res) => {
   const salt = await bcrypt.genSaltSync(saltRounds);
   const hashedPassword = await bcrypt.hashSync(password, salt);
     
-  const user = await User({ email, password: hashedPassword, firstName, lastName });
+  const user = await User({ email, password: hashedPassword, firstName, lastName, categories, });
   await user.save();
   res.status(201).json({ 'message': "Account registered" })
 };
