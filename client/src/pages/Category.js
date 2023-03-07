@@ -14,12 +14,17 @@ import IconButton from '@mui/material/IconButton';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import { setUser } from '../store/auth.js';
+import CategoryForm from '../components/CategoryForm.js';
 
 export default function Category() {
+    const token = Cookies.get('token');
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
+    const [editCategory, setEditCategory] = React.useState({});
 
-  const token = Cookies.get('token');
-  const user = useSelector(state => state.auth.user);
-  const dispatch = useDispatch()
+    function setEdit(category) {
+        setEditCategory(category);
+    }
   
   async function remove(id) {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/category/${id}`, {
@@ -32,7 +37,7 @@ export default function Category() {
     if (res.ok) {
       const _user = {
         ...user,
-        categories: user.categories.filter(cat => cat._id != id),
+        categories: user.categories.filter((cat) => cat._id != id),
       };
       dispatch(setUser({user:_user}));
     }
@@ -40,6 +45,7 @@ export default function Category() {
 
   return (
       <Container>
+          <CategoryForm editCategory={editCategory}/>
           <Typography variant="h6" sx={{ marginTop: 10 }} >
               List of Categories
           </Typography>
@@ -47,9 +53,9 @@ export default function Category() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                       <TableRow>
-                          <TableCell align="center">Label</TableCell>
-              <TableCell align="center">Icon</TableCell>
-              <TableCell align="center">Actions</TableCell>
+                        <TableCell align="center">Label</TableCell>
+                        <TableCell align="center">Icon</TableCell>
+                        <TableCell align="center">Actions</TableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>
@@ -64,7 +70,7 @@ export default function Category() {
                               <TableCell align="center">{row.icon}</TableCell>
                               <TableCell align="center">
                                 <IconButton color="primary" component="label"
-                                /* onClick={() => setEditTransaction(row)}*/>
+                                onClick={() => setEdit(row)}>
                                       <EditSharpIcon />
                                   </IconButton>
                                   <IconButton color="warning" component="label" onClick={() => remove(row._id)}>

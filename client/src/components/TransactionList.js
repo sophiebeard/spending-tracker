@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 
 export default function TransactionList({ transactions, fetchTransaction, setEditTransaction, }) {
 
-    const user = useSelector(state => state.auth.user);
+    const user = useSelector((state) => state.auth.user);
 
     async function remove(_id) {
         const token = Cookies.get('token');
