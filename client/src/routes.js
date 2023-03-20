@@ -12,15 +12,15 @@ export default createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: (
           <CheckAuth>
-            <Home/>
+            <Home />
           </CheckAuth>
         ),
       },
       {
-        path: '/login',
+        path: "/login",
         element: (
           <Guest>
             <Login />
@@ -28,7 +28,7 @@ export default createBrowserRouter([
         ),
       },
       {
-        path: '/register',
+        path: "/register",
         element: (
           <Guest>
             <Register />
@@ -36,13 +36,13 @@ export default createBrowserRouter([
         ),
       },
       {
-        path: '/category',
+        path: "/category",
         element: (
           <CheckAuth>
             <Category />
           </CheckAuth>
         ),
       },
-    ]
+    ],
   },
 ]);

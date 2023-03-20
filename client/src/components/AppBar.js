@@ -18,7 +18,7 @@ export default function ButtonAppBar() {
         Cookies.remove('token');
         dispatch(logout())
         navigate('/login');
-    };
+    }
         
     return (
         <Box sx={{ flexGrow: 1 }}>

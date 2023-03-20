@@ -5,11 +5,11 @@ import express from "express";
 import passport from "passport";
 import passportConfig from "./config/passport.js";
 import connect from "./database/mongodb.js";
-import router from '../server/routes/index.js';
+import routes from "./routes/index.js";
 
 dotenv.config();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,8 +19,7 @@ passportConfig(passport);
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
-
-app.use('/', router)
+app.use("/", routes);
 
 await connect();
 

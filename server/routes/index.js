@@ -6,7 +6,7 @@ import passport from 'passport';
 import CategoryApi from "./CategoryApi.js";
 const router = Router();
 
-const auth = passport.authenticate('jwt', { session: false });
+const auth = passport.authenticate("jwt", { session: false });
 
 router.use("/transaction", auth, TransactionsApi);
 router.use("/auth", AuthApi);

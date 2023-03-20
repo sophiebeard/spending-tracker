@@ -1,16 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
-    firstName: { type: String, required: ['Please enter first name'] },
-    lastName: { type: String, required: ['Please enter last name'] },
-    email: { type: String, required: ['Please enter email address'] },
-    password: { type: String, required: ['Please enter your password'] },
-    categories: [
-        {label: String, icon: String}
-    ],
-},
-    { timestamps: true }
+const userSchema = new Schema(
+  {
+    firstName: { type: String, required: ["First name field is required"] },
+    lastName: { type: String, required: ["Last name field is required"] },
+    email: { type: String, required: ["Email field is required"] },
+    password: { type: String, required: ["Password field is required"] },
+    categories: [{ label: String, icon: String }],
+  },
+  { timestamps: true }
 );
 
 export default new mongoose.model("User", userSchema);

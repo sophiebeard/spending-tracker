@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 export default function Guest({ children }) {
   const auth = useSelector((state) => state.auth);

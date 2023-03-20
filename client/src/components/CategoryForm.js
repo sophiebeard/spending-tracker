@@ -95,7 +95,7 @@ export default function CategoryForm({ editCategory }) {
   return (
     <Card sx={{ minWidth: 275, marginTop: 10 }}>
       <CardContent>
-        <Typography variant="h6">Add New Categeory</Typography>
+        <Typography variant="h6">Add New Category</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             sx={{ marginRight: 5 }}

@@ -17,20 +17,20 @@ import { setUser } from '../store/auth.js';
 import CategoryForm from '../components/CategoryForm.js';
 
 export default function Category() {
-    const token = Cookies.get('token');
-    const user = useSelector((state) => state.auth.user);
-    const dispatch = useDispatch();
-    const [editCategory, setEditCategory] = React.useState({});
+  const token = Cookies.get("token");
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [editCategory, setEditCategory] = React.useState({});
 
-    function setEdit(category) {
-        setEditCategory(category);
-    }
-  
+  function setEdit(category) {
+    setEditCategory(category);
+  }
+
   async function remove(id) {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/category/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -39,49 +39,57 @@ export default function Category() {
         ...user,
         categories: user.categories.filter((cat) => cat._id != id),
       };
-      dispatch(setUser({user:_user}));
+      dispatch(setUser({ user: _user }));
     }
   }
 
   return (
-      <Container>
-          <CategoryForm editCategory={editCategory}/>
-          <Typography variant="h6" sx={{ marginTop: 10 }} >
-              List of Categories
-          </Typography>
-          <TableContainer component={Paper} >
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                      <TableRow>
-                        <TableCell align="center">Label</TableCell>
-                        <TableCell align="center">Icon</TableCell>
-                        <TableCell align="center">Actions</TableCell>
-                      </TableRow>
-                  </TableHead>
-                  <TableBody>
-                      {user.categories.map((row) => (
-                          <TableRow
-                              key={row._id}
-                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                          >
-                              <TableCell component="th" scope="row" align="center">
-                                  {row.label}
-                              </TableCell>
-                              <TableCell align="center">{row.icon}</TableCell>
-                              <TableCell align="center">
-                                <IconButton color="primary" component="label"
-                                onClick={() => setEdit(row)}>
-                                      <EditSharpIcon />
-                                  </IconButton>
-                                  <IconButton color="warning" component="label" onClick={() => remove(row._id)}>
-                                      <DeleteSharpIcon />
-                                  </IconButton>
-                              </TableCell>
-                          </TableRow>
-                      ))}
-                  </TableBody>
-              </Table>
-          </TableContainer>
-      </Container>
+    <Container>
+      <CategoryForm editCategory={editCategory} />
+      <Typography sx={{ marginTop: 10 }} variant="h6">
+        List of Categories
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Label</TableCell>
+              <TableCell align="center">Icon</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {user.categories.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center" component="th" scope="row">
+                  {row.label}
+                </TableCell>
+                <TableCell align="center">{row.icon}</TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    color="primary"
+                    component="label"
+                    onClick={() => setEdit(row)}
+                  >
+                    <EditSharpIcon />
+                  </IconButton>
+
+                  <IconButton
+                    color="warning"
+                    component="label"
+                    onClick={() => remove(row._id)}
+                  >
+                    <DeleteSharpIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 }
