@@ -37,6 +37,7 @@ npm i js-cookie
 npm install react-redux
 npm install redux
 npm install @reduxjs/toolkit
+npm i --save @devexpress/dx-react-chart-material-ui
 ```
 
 To run:
