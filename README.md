@@ -14,12 +14,14 @@ npm install jsonwebtoken
 npm install passport-jwt
 npm i passport
 npm i dotenv
+
 ```
 
 To run:
 ```
 npm run serve
 ```
+The back end is deployed on Heroku. 
 
 ## Front-End Set Up
 ```
